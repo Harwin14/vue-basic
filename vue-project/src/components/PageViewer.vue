@@ -1,5 +1,9 @@
 <template>
-    <div class="container" :class="[theme == 'dark' && 'text-warning']">
+    <div
+        v-if="page"
+        class="container"
+        :class="[theme == 'dark' && 'text-warning']"
+    >
         <h1 class="emphasize" :class="[theme == 'dark' && 'text-warning']">
             {{ page.pageTitle }}
         </h1>
@@ -9,20 +13,30 @@
 
 <script>
 export default {
-    props: {
-        page: {
-            type: Object,
-            default(rawProps) {
-                return {
-                    pageTitle: "",
-                    content: "",
-                };
-            },
-        },
-        theme: {
-            type: String,
-        },
+    props: ["theme","index"],
+    //     theme: {
+    //         type: String,
+    //     },
+    // },
+    created() {
+        this.page = this.$pages.getSinglePage(this.index);
+        // this.$watch(
+        //     () => this.$route.params,
+        //     (newParams, prevParams) => {
+        //         this.page = this.$pages.getSinglePage(newParams.index);
+        //     }
+        // );
     },
+    data() {
+        return {
+            page: null,
+        };
+    },
+    watch:{
+        index(newIndex, oldIndex){
+            this.page = this.$pages.getSinglePage(newIndex)
+        }
+    }
 };
 </script>
 
