@@ -38,19 +38,23 @@
                                 class="form-check-input"
                                 v-model="page.published"
                             />
-                            published {{page}}
+                            published
                         </label>
                     </div>
                 </div>
             </div>
             <div class="mb-3">
-                <button class="btn btn-primary" @click.prevent="submit">
+                <button class="btn btn-primary me-2" @click.prevent="submit">
                     Edit
                 </button>
                 <button 
-                class="btn btn-secondary"
+                class="btn btn-secondary me-2"
                 @click.prevent="goToPagesList"
                 >Cancel</button>
+                <button 
+                class="btn btn-danger"
+                @click.prevent="deletePage"
+                >Delete</button>
             </div>
         </form>
     </div>
@@ -77,6 +81,12 @@ const submit = () => {
     });
     goToPagesList();
 };
+const deletePage = () => {
+    pages.removePage(index)
+
+    bus.$emit('page-deleted',{index} )
+    goToPagesList()
+}
 
 const goToPagesList = () => {
     router.push({ path: "/pages" });

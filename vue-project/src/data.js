@@ -1,25 +1,34 @@
-const pagesKey = 'pages';
+const pagesKey = "pages";
 
-let pagesJson = localStorage.getItem(pagesKey)
-let pagesStore = JSON.parse(pagesJson)
+let pagesJson = localStorage.getItem(pagesKey);
+let pagesStore = JSON.parse(pagesJson);
+
+function save() {
+    localStorage.setItem(pagesKey, JSON.stringify(pagesStore));
+}
 
 export default {
-    addPage(page){
-        pagesStore.push(addPage)
-        localStorage.setItem(pagesKey, JSON.stringify(pagesStore))
+    addPage(page) {
+        pagesStore.push(page);
+        save();
     },
 
-    getAllPages(){
-        return pagesStore
+    getAllPages() {
+        return pagesStore;
     },
 
-    getSinglePage(index){
-        return pagesStore[index]
+    getSinglePage(index) {
+        return pagesStore[index];
     },
 
-    editPage(index, page){
-        pagesStore[index] = page
+    editPage(index, page) {
+        pagesStore[index] = page;
 
-        localStorage.setItem(pagesKey, JSON.stringify(pagesStore)) 
-    }
-}
+        save();
+    },
+
+    removePage(index) {
+        pagesStore.splice(index, 1);
+        save();
+    },
+};

@@ -75,12 +75,12 @@ function submitForm() {
     }
 
     let newpage = {
-        pageTitle,
-        content,
+        pageTitle:pageTitle.value,
+        content:content.value,
         link: {
-            text: linkText,
+            text: linkText.value,
         },
-        published,
+        published:published.value,
     };
 
     pages.addPage(newpage);
@@ -92,8 +92,8 @@ function submitForm() {
 const isFormInvalid = computed(() => !pageTitle || !content || !linkText);
 
 watch(pageTitle, (newTitle, oldTitle) => {
-    if (linkText === oldTitle) {
-        linkText = newTitle;
+    if (linkText.value === oldTitle) {
+        linkText.value = newTitle;
     }
 });
 </script>
