@@ -14,6 +14,7 @@
 <script>
 export default {
     props: ["theme","index"],
+    inject:['$pages'],
     //     theme: {
     //         type: String,
     //     },

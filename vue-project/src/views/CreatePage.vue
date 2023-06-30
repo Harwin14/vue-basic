@@ -30,14 +30,7 @@
                             v-model="linkText"
                         />
                     </div>
-                    <div class="mb-3">
-                        <label for="" class="form-label">Link URL</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            v-model="linkUrl"
-                        />
-                    </div>
+
                     <div class="form-check">
                         <label class="form-check-label">
                             <input
@@ -62,22 +55,38 @@
         </form>
     </div>
 </template>
-<script>
-export default {
-    emits:{
-        pageCreated({pageTitle, content, link}){
-            if(!pageTitle){
-                return false
+<script setup>
+import {ref} from 'vue';
+import { useRouter } from 'vue-router';
+
+let pageTitle = ref('');
+let content= ref('');
+let linkText = ref('');
+let published = ref(true);
+
+function submitForm() {
+            if (
+                !pageTitle ||
+                !content ||
+                !linkText 
+            ) {
+                alert("Please fill the form");
+                return;
             }
-            if(!content){
-                return false
-            }
-            if(!link || !link.text || !link.url){
-                return false
-            }
-            return true
+            this.$emit("pageCreated", {
+                pageTitle: this.pageTitle,
+                content: this.content,
+                link: {
+                    text: this.linkText,
+                    url: this.linkUrl,
+                },
+                published: this.published,
+            })
+          
         }
-    },
+</script>
+<!-- <script>
+export default {
     computed: {
         isFormInvalid() {
             return (
@@ -116,12 +125,12 @@ export default {
                     url: this.linkUrl,
                 },
                 published: this.published,
-            })
-                this.pageTitle = "",
-                this.content = "",
-                this.linkText = "",
-                this.linkUrl = "",
-                this.published = true;
+            });
+            (this.pageTitle = ""),
+                (this.content = ""),
+                (this.linkText = ""),
+                (this.linkUrl = ""),
+                (this.published = true);
         },
     },
     watch: {
@@ -132,5 +141,4 @@ export default {
         },
     },
 };
-</script>
-  
+</script> -->

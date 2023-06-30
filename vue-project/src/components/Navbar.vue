@@ -18,14 +18,13 @@
                     :page="page"
                     :index="index"
                 ></navbar-link>
-
                 <li>
                     <router-link
-                        to="/create"
+                        to="/pages"
                         class="nav-link"
                         active-class="active"
                         aria-current="page"
-                        >Create Page</router-link
+                        >Pages</router-link
                     >
                 </li>
             </ul>
@@ -44,9 +43,13 @@ export default {
     components: {
         NavbarLink,
     },
+    inject:['$pages', '$bus'],
     created() {
         this.getThemeSetting();
-        this.pages = this.$pages.getAllPages
+        this.pages = this.$pages.getAllPages()
+        this.$bus.$on('page-updated', () => {
+            this.pages = [...this.$pages.getAllPages()]
+        })
     },
     computed: {
         publishedPages() {
