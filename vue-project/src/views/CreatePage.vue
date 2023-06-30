@@ -56,34 +56,46 @@
     </div>
 </template>
 <script setup>
-import {ref} from 'vue';
-import { useRouter } from 'vue-router';
+import { inject, ref, computed, watch } from "vue";
+import { useRouter } from "vue-router";
+const bus = inject("$bus");
+const pages = inject("$pages");
 
-let pageTitle = ref('');
-let content= ref('');
-let linkText = ref('');
+const router = useRouter();
+
+let pageTitle = ref("");
+let content = ref("");
+let linkText = ref("");
 let published = ref(true);
 
 function submitForm() {
-            if (
-                !pageTitle ||
-                !content ||
-                !linkText 
-            ) {
-                alert("Please fill the form");
-                return;
-            }
-            this.$emit("pageCreated", {
-                pageTitle: this.pageTitle,
-                content: this.content,
-                link: {
-                    text: this.linkText,
-                    url: this.linkUrl,
-                },
-                published: this.published,
-            })
-          
-        }
+    if (!pageTitle || !content || !linkText) {
+        alert("Please fill the form");
+        return;
+    }
+
+    let newpage = {
+        pageTitle,
+        content,
+        link: {
+            text: linkText,
+        },
+        published,
+    };
+
+    pages.addPage(newpage);
+
+    bus.$emit("page-created");
+
+    router.push({ path: "/pages" });
+}
+const isFormInvalid = computed(() => !pageTitle || !content || !linkText);
+
+watch(pageTitle, (newTitle, oldTitle) => {
+    if (linkText === oldTitle) {
+        linkText = newTitle;
+    }
+});
 </script>
 <!-- <script>
 export default {

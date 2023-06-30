@@ -4,6 +4,11 @@ let pagesJson = localStorage.getItem(pagesKey)
 let pagesStore = JSON.parse(pagesJson)
 
 export default {
+    addPage(page){
+        pagesStore.push(addPage)
+        localStorage.setItem(pagesKey, JSON.stringify(pagesStore))
+    },
+
     getAllPages(){
         return pagesStore
     },
